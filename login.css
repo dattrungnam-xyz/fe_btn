@@ -51,3 +51,9 @@
     align-items: center;
     gap:4px;
 }
+.login__error
+{
+    margin-bottom: 10px;
+    margin-right:2px;
+    color: #be123c;
+}
