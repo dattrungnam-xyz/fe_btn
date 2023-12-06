@@ -33,9 +33,9 @@
             <div class="header__control--button-container">
               <!-- active -->
               <!-- <i
-                style="color: black"
-                class="bx bxs-home header__control--button"
-              ></i> -->
+                  style="color: black"
+                  class="bx bxs-home header__control--button"
+                ></i> -->
               <!-- non active -->
               <i
                 style="color: #ccc"
@@ -83,12 +83,15 @@
       </header>
       <section class="main">
         <div class="main__content">
-                      <form class="edit-profile__container">
+          <form class="edit-profile__container">
             <div class="edit-profile__ele">
               <span class="edit-profile__field"> Ten bai hat </span>
-              <div class="edit-profile__value " >
-                    <i class='bx bx-music'></i>
-                <input class="edit-profile__value--input edit-profile__username" type="text" />
+              <div class="edit-profile__value">
+                <i class="bx bx-music"></i>
+                <input
+                  class="edit-profile__value--input edit-profile__username"
+                  type="text"
+                />
               </div>
             </div>
             <div class="edit-profile__ele">
@@ -99,30 +102,65 @@
               </div>
             </div>
             <div class="edit-profile__ele">
-              <span class="edit-profile__field"> Ngay cong chieu </span>
-              <div class="edit-profile__value">
-                <i class='bx bx-calendar'></i>
-                <input class="edit-profile__value--input" type="date" />
-              </div>
-            </div>
-            <div class="edit-profile__ele">
-              <span class="edit-profile__field"> Youtube </span>
+              <span class="edit-profile__field"> Ca sĩ </span>
               <div class="edit-profile__value">
                 <i class="bx bx-plus"></i>
                 <input class="edit-profile__value--input" type="text" />
               </div>
             </div>
+
             <div class="edit-profile__ele">
-              <span class="edit-profile__field"> Content </span>
+              <span class="edit-profile__field"> Thumbnail </span>
               <div class="edit-profile__value">
-                <i class="bx bx-plus"></i>
-                <textarea rows="7" class="edit-profile__value--input" type="text" > </textarea>
+                <label style="border: 1px solid #ccc" for="post__thumbnail">
+                  <img src="" alt="" style="width: 100px; height: 100px" />
+                  <input
+                    hidden
+                    id="post__thumbnail"
+                    class="edit-profile__value--input"
+                    type="file"
+                  />
+                </label>
               </div>
             </div>
-                
-            <label for="edit-profile__avatar--input" class="edit-profile__avatar-container">
-              <input id="edit-profile__avatar--input" hidden type="file">
-              <img class="edit-profile__avatar--image"  src="https://musicart.xboxlive.com/7/4d4d6500-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080" alt="">
+            <div class="edit-profile__ele">
+              <span class="edit-profile__field"> Video </span>
+              <div class="edit-profile__value">
+                <input
+                  id="videoInput"
+                  type="file"
+                  name="video"
+                  accept="video/*"
+                  class="edit-profile__value--input"
+                />
+              </div>
+            </div>
+            <div class="edit-profile__ele">
+              <span class="edit-profile__field"> Content </span>
+              <div
+                style="align-items: flex-start !important"
+                class="edit-profile__value"
+              >
+                <i class="bx bx-plus"></i>
+                <textarea
+                  rows="7"
+                  class="edit-profile__value--input"
+                  type="text"
+                >
+                </textarea>
+              </div>
+            </div>
+
+            <label
+              for="edit-profile__avatar--input"
+              class="edit-profile__avatar-container"
+            >
+              <!-- <input id="edit-profile__avatar--input" hidden type="file" /> -->
+              <img
+                class="edit-profile__avatar--image"
+                src="https://musicart.xboxlive.com/7/4d4d6500-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080"
+                alt=""
+              />
             </label>
             <div>
               <p class="edit-profile__error">đây là error</p>
@@ -130,10 +168,48 @@
             <div>
               <button class="edit-profile__button">Update</button>
             </div>
-
           </form>
         </div>
       </section>
     </div>
+    <video id="displayVideo" controls></video>
+    <button onclick="convertAndDisplayVideo()">convert</button>
   </body>
+
+  <script>
+    function convertAndDisplayVideo() {
+      var input = document.getElementById("videoInput");
+      var file = input.files[0];
+
+      if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          var binaryData = e.target.result;
+
+          displayVideo(binaryData);
+        };
+
+        reader.readAsBinaryString(file);
+      } else {
+        console.error("No file selected");
+      }
+    }
+
+    function displayVideo(binaryData) {
+      var uint8Array = new Uint8Array(binaryData);
+      var videoElement = document.getElementById("displayVideo");
+
+      // Create a Blob from the Uint8Array
+      var blob = new Blob([uint8Array], { type: "video/*" });
+
+      // Convert Blob to Base64
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        // Set the result (Base64 data) as the source of the video element
+        videoElement.src = e.target.result;
+      };
+      reader.readAsDataURL(blob);
+    }
+  </script>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Binary Video</title>
+</head>
+<body>
+    <input type="file" id="videoInput" accept="video/*">
+    <button onclick="convertAndDisplayVideo()">Convert and Display Video</button>
+
+    <video id="displayVideo" controls></video>
+
+    <script>
+        function convertAndDisplayVideo() {
+            var input = document.getElementById('videoInput');
+            var file = input.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var binaryData = e.target.result;
+
+                    displayVideo(binaryData);
+                };
+
+                reader.readAsArrayBuffer(file);
+            } else {
+                console.error("No file selected");
+            }
+        }
+
+        function displayVideo(binaryData) {
+            var blob = new Blob([binaryData], { type: 'video/*' });
+            var videoElement = document.getElementById('displayVideo');
+
+            // Create a blob URL from the Blob
+            var blobURL = URL.createObjectURL(blob);
+
+            // Set the blob URL as the source of the video element
+            videoElement.src = blobURL;
+        }
+    </script>
+</body>
+</html>
